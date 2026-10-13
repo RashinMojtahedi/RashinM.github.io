@@ -273,6 +273,261 @@ footer {
       Always verify dates, skills, qualifications, and achievements before applying.
     </p>
   </section>
+
+const trackerStorageKey = "rashinsCVApplications";
+const trackerStatuses = [
+  "Interested",
+  "Preparing application",
+  "Applied",
+  "Interview",
+  "Offer",
+  "Rejected",
+  "Withdrawn"
+];
+
+function getApplications() {
+  try {
+    const saved = localStorage.getItem(trackerStorageKey);
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveApplications(applications) {
+  try {
+    localStorage.setItem(trackerStorageKey, JSON.stringify(applications));
+    return true;
+  } catch (error) {
+    setTrackerMessage("Could not save. Check your browser storage settings.");
+    return false;
+  }
+}
+
+function setTrackerMessage(message) {
+  document.getElementById("trackerStatus").textContent = message;
+}
+
+function makeTrackerElement(tag, text, className) {
+  const element = document.createElement(tag);
+  if (text !== undefined) element.textContent = text;
+  if (className) element.className = className;
+  return element;
+}
+
+function renderApplications() {
+  const applications = getApplications();
+  const list = document.getElementById("applicationList");
+  const summary = document.getElementById("trackerSummary");
+
+  list.replaceChildren();
+
+  const applied = applications.filter(item =>
+    ["Applied", "Interview", "Offer"].includes(item.status)
+  ).length;
+  const interviews = applications.filter(item =>
+    item.status === "Interview"
+  ).length;
+  const offers = applications.filter(item =>
+    item.status === "Offer"
+  ).length;
+
+  summary.textContent =
+    `Total: ${applications.length} · Applied or further: ${applied}` +
+    ` · Interviews: ${interviews} · Offers: ${offers}`;
+
+  if (applications.length === 0) {
+    list.appendChild(makeTrackerElement(
+      "p",
+      "Your saved applications will appear here.",
+      "description"
+    ));
+    return;
+  }
+
+  applications.sort((a, b) =>
+    (b.createdAt || 0) - (a.createdAt || 0)
+  );
+
+  applications.forEach(application => {
+    const card = makeTrackerElement("div", undefined, "application-card");
+    card.style.cssText =
+      "border:1px solid #e3e7ee;border-radius:10px;padding:16px;" +
+      "margin-top:12px;background:#fff;";
+
+    const heading = makeTrackerElement(
+      "h3",
+      `${application.company} — ${application.title}`
+    );
+    heading.style.marginTop = "0";
+    card.appendChild(heading);
+
+    card.appendChild(makeTrackerElement(
+      "p",
+      `Date: ${application.date || "Not set"}`
+    ));
+
+    if (application.url) {
+      try {
+        const parsedUrl = new URL(application.url);
+        if (["https:", "http:"].includes(parsedUrl.protocol)) {
+          const link = makeTrackerElement("a", "Open job advertisement");
+          link.href = parsedUrl.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          card.appendChild(link);
+        }
+      } catch (error) {
+        // Ignore invalid URLs.
+      }
+    }
+
+    if (application.notes) {
+      const notes = makeTrackerElement("p", `Notes: ${application.notes}`);
+      notes.style.whiteSpace = "pre-wrap";
+      card.appendChild(notes);
+    }
+
+    const statusLabel = makeTrackerElement("label", "Update status");
+    const statusSelect = document.createElement("select");
+
+    trackerStatuses.forEach(status => {
+      const option = document.createElement("option");
+      option.value = status;
+      option.textContent = status;
+      statusSelect.appendChild(option);
+    });
+
+    statusSelect.value = trackerStatuses.includes(application.status)
+      ? application.status
+      : "Interested";
+
+    statusSelect.addEventListener("change", () => {
+      const latest = getApplications();
+      const match = latest.find(item => item.id === application.id);
+      if (!match) return;
+      match.status = statusSelect.value;
+      if (saveApplications(latest)) {
+        setTrackerMessage("Application status updated.");
+        renderApplications();
+      }
+    });
+
+    statusLabel.appendChild(statusSelect);
+    card.appendChild(statusLabel);
+
+    const deleteButton = makeTrackerElement(
+      "button",
+      "Delete application",
+      "secondary"
+    );
+    deleteButton.type = "button";
+    deleteButton.style.marginTop = "12px";
+
+    deleteButton.addEventListener("click", () => {
+      if (!confirm(`Delete the application for ${application.company}?`)) {
+        return;
+      }
+      const latest = getApplications().filter(
+        item => item.id !== application.id
+      );
+      if (saveApplications(latest)) {
+        setTrackerMessage("Application deleted.");
+        renderApplications();
+      }
+    });
+
+    card.appendChild(deleteButton);
+    list.appendChild(card);
+  });
+}
+
+document.getElementById("addApplication").addEventListener("click", () => {
+  const company = document.getElementById("trackCompany").value.trim();
+  const title = document.getElementById("trackTitle").value.trim();
+  const url = document.getElementById("trackLink").value.trim();
+  const date = document.getElementById("trackDate").value;
+  const status = document.getElementById("trackStatus").value;
+  const notes = document.getElementById("trackNotes").value.trim();
+
+  if (!company || !title) {
+    setTrackerMessage("Please enter both company and job title.");
+    return;
+  }
+
+  if (url) {
+    try {
+      const parsedUrl = new URL(url);
+      if (!["https:", "http:"].includes(parsedUrl.protocol)) {
+        throw new Error("Invalid URL");
+      }
+    } catch (error) {
+      setTrackerMessage("Enter a valid job URL, including https://, or leave it blank.");
+      return;
+    }
+  }
+
+  const applications = getApplications();
+  applications.push({
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    company,
+    title,
+    url,
+    date,
+    status,
+    notes,
+    createdAt: Date.now()
+  });
+
+  if (saveApplications(applications)) {
+    document.getElementById("trackCompany").value = "";
+    document.getElementById("trackTitle").value = "";
+    document.getElementById("trackLink").value = "";
+    document.getElementById("trackDate").value = "";
+    document.getElementById("trackStatus").value = "Interested";
+    document.getElementById("trackNotes").value = "";
+    setTrackerMessage("Application added successfully.");
+    renderApplications();
+  }
+});
+
+document.getElementById("exportApplications").addEventListener("click", () => {
+  const applications = getApplications();
+  if (!applications.length) {
+    setTrackerMessage("Add at least one application before exporting.");
+    return;
+  }
+
+  const columns = [
+    "Company", "Job title", "URL", "Application date", "Status", "Notes"
+  ];
+  const rows = applications.map(item => [
+    item.company, item.title, item.url, item.date, item.status, item.notes
+  ]);
+
+  const csvCell = value =>
+    `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+  const csv = [columns, ...rows]
+    .map(row => row.map(csvCell).join(","))
+    .join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+  const downloadUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.download = "rashins-job-applications.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(downloadUrl);
+  setTrackerMessage("CSV export downloaded.");
+});
+
+renderApplications();
 </main>
 
 <div id="printArea" class="print-only"></div>
