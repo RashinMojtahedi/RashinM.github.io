@@ -115,9 +115,24 @@ button:hover { opacity: .9; }
   min-height: 250px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
   line-height: 1.5;
+}
+.application-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 12px;
+  background: white;
+}
+.application-card h3 { margin-top: 0; }
+.application-card .notes {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.application-card a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
 }
 footer {
   text-align: center;
@@ -160,11 +175,12 @@ footer {
 </header>
 
 <main>
+
   <section>
     <h2>01 — Master Profile</h2>
     <p class="description">
-      Keep your career facts here. Use this information as the source
-      for each tailored CV.
+      Maintain your verified career facts here. Use this as the source
+      for every tailored CV.
     </p>
 
     <label for="profile">Your career information</label>
@@ -177,8 +193,8 @@ footer {
     <div id="profileStatus" class="status" aria-live="polite"></div>
 
     <div class="notice">
-      Privacy: your saved profile stays in this browser on this device.
-      It is not synchronized between devices. Avoid passwords, ID numbers,
+      Your profile is saved in this browser on this device. It is not
+      synchronized between devices. Avoid storing passwords, ID numbers,
       or other sensitive personal information.
     </div>
   </section>
@@ -186,17 +202,17 @@ footer {
   <section>
     <h2>02 — Target Job</h2>
     <p class="description">
-      Add a job advertisement to prepare a tailored CV prompt.
+      Paste a job advertisement to prepare a tailored CV prompt.
     </p>
 
     <div class="grid">
       <div>
         <label for="company">Company name (optional)</label>
-        <input id="company" type="text" placeholder="e.g. Sage">
+        <input id="company" placeholder="e.g. Sage">
       </div>
       <div>
         <label for="jobTitle">Job title (optional)</label>
-        <input id="jobTitle" type="text" placeholder="e.g. Sales Development Representative">
+        <input id="jobTitle" placeholder="e.g. Junior SDR">
       </div>
       <div>
         <label for="language">CV language</label>
@@ -214,15 +230,15 @@ footer {
       </div>
     </div>
 
-    <label for="jobDescription">Paste the full job description</label>
-    <textarea id="jobDescription" placeholder="Paste the complete job advertisement here..."></textarea>
+    <label for="jobDescription">Full job description</label>
+    <textarea id="jobDescription" placeholder="Paste the full job advertisement here..."></textarea>
 
     <div class="actions">
-      <button type="button" id="generatePrompt">Analyze job and prepare my CV prompt</button>
+      <button type="button" id="generatePrompt">Prepare my CV prompt</button>
     </div>
 
-    <label for="prompt">Your tailored CV prompt</label>
-    <textarea id="prompt" placeholder="Your generated prompt will appear here..." readonly></textarea>
+    <label for="prompt">Tailored CV prompt</label>
+    <textarea id="prompt" readonly placeholder="Your generated prompt will appear here..."></textarea>
 
     <div class="actions">
       <button type="button" id="copyPrompt">Copy prompt</button>
@@ -234,13 +250,11 @@ footer {
   <section>
     <h2>03 — Final CV & PDF</h2>
     <p class="description">
-      After ChatGPT drafts your CV, paste the final text below.
-      Preview it, make corrections, and use your browser's print dialog
-      to save it as a PDF.
+      Paste your final CV, update the preview, and use Print / Save as PDF.
     </p>
 
-    <label for="cvDraft">Paste your final CV text</label>
-    <textarea id="cvDraft" placeholder="Paste the CV you prepared with ChatGPT here. You can edit the text before printing."></textarea>
+    <label for="cvDraft">Final CV text</label>
+    <textarea id="cvDraft" placeholder="Paste your final CV here..."></textarea>
 
     <div class="actions">
       <button type="button" id="previewCV">Update CV preview</button>
@@ -253,281 +267,84 @@ footer {
     <div id="cvStatus" class="status" aria-live="polite"></div>
 
     <div class="notice">
-      For PDF: click “Print / Save as PDF”, choose “Save as PDF” in the
-      browser's print destination, and save the file. Check page breaks
-      and contact details before sending the CV to an employer.
+      In the print dialog, select “Save as PDF”. Check page breaks,
+      dates, contact details, and factual accuracy before applying.
+    </div>
+  </section>
+
+  <section id="jobTracker">
+    <h2>04 — Job Application Dashboard</h2>
+    <p class="description">
+      Keep track of applications, interviews, offers, and follow-up notes.
+      Records are saved in this browser on this device.
+    </p>
+
+    <div class="grid">
+      <div>
+        <label for="trackCompany">Company</label>
+        <input id="trackCompany" placeholder="e.g. Sage">
+      </div>
+      <div>
+        <label for="trackTitle">Job title</label>
+        <input id="trackTitle" placeholder="e.g. Junior SDR">
+      </div>
+      <div>
+        <label for="trackLink">Job advertisement URL (optional)</label>
+        <input id="trackLink" type="url" placeholder="https://...">
+      </div>
+      <div>
+        <label for="trackDate">Application date</label>
+        <input id="trackDate" type="date">
+      </div>
+    </div>
+
+    <label for="trackStatus">Status</label>
+    <select id="trackStatus">
+      <option>Interested</option>
+      <option>Preparing application</option>
+      <option>Applied</option>
+      <option>Interview</option>
+      <option>Offer</option>
+      <option>Rejected</option>
+      <option>Withdrawn</option>
+    </select>
+
+    <label for="trackNotes">Notes and follow-up</label>
+    <textarea id="trackNotes" placeholder="Recruiter contact, interview date, next steps..."></textarea>
+
+    <div class="actions">
+      <button type="button" id="addApplication">Add application</button>
+      <button type="button" class="secondary" id="exportApplications">Export CSV</button>
+    </div>
+
+    <div id="trackerStatus" class="status" aria-live="polite"></div>
+
+    <h3>Application overview</h3>
+    <p id="trackerSummary" class="description"></p>
+    <div id="applicationList"></div>
+
+    <div class="notice">
+      Export CSV creates a spreadsheet-compatible file that you can open
+      in Excel or Google Sheets. This dashboard does not send applications
+      or reminders automatically.
     </div>
   </section>
 
   <section>
     <h2>How this version works</h2>
     <ol>
-      <li>Maintain your master profile once.</li>
-      <li>Paste a new job advertisement.</li>
-      <li>Generate a role-specific prompt and send it to ChatGPT.</li>
-      <li>Paste the reviewed CV into the final CV section.</li>
-      <li>Preview and save the CV as a PDF.</li>
+      <li>Save your master profile.</li>
+      <li>Paste a job advertisement and prepare a tailored CV prompt.</li>
+      <li>Use the prompt in ChatGPT and review the resulting CV.</li>
+      <li>Preview and save the final CV as a PDF.</li>
+      <li>Record and update your applications in the dashboard.</li>
     </ol>
     <p class="description">
       This free version does not call an AI model automatically.
-      Always verify dates, skills, qualifications, and achievements before applying.
+      Verify dates, qualifications, skills, and achievements before applying.
     </p>
   </section>
 
-const trackerStorageKey = "rashinsCVApplications";
-const trackerStatuses = [
-  "Interested",
-  "Preparing application",
-  "Applied",
-  "Interview",
-  "Offer",
-  "Rejected",
-  "Withdrawn"
-];
-
-function getApplications() {
-  try {
-    const saved = localStorage.getItem(trackerStorageKey);
-    const parsed = saved ? JSON.parse(saved) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
-    return [];
-  }
-}
-
-function saveApplications(applications) {
-  try {
-    localStorage.setItem(trackerStorageKey, JSON.stringify(applications));
-    return true;
-  } catch (error) {
-    setTrackerMessage("Could not save. Check your browser storage settings.");
-    return false;
-  }
-}
-
-function setTrackerMessage(message) {
-  document.getElementById("trackerStatus").textContent = message;
-}
-
-function makeTrackerElement(tag, text, className) {
-  const element = document.createElement(tag);
-  if (text !== undefined) element.textContent = text;
-  if (className) element.className = className;
-  return element;
-}
-
-function renderApplications() {
-  const applications = getApplications();
-  const list = document.getElementById("applicationList");
-  const summary = document.getElementById("trackerSummary");
-
-  list.replaceChildren();
-
-  const applied = applications.filter(item =>
-    ["Applied", "Interview", "Offer"].includes(item.status)
-  ).length;
-  const interviews = applications.filter(item =>
-    item.status === "Interview"
-  ).length;
-  const offers = applications.filter(item =>
-    item.status === "Offer"
-  ).length;
-
-  summary.textContent =
-    `Total: ${applications.length} · Applied or further: ${applied}` +
-    ` · Interviews: ${interviews} · Offers: ${offers}`;
-
-  if (applications.length === 0) {
-    list.appendChild(makeTrackerElement(
-      "p",
-      "Your saved applications will appear here.",
-      "description"
-    ));
-    return;
-  }
-
-  applications.sort((a, b) =>
-    (b.createdAt || 0) - (a.createdAt || 0)
-  );
-
-  applications.forEach(application => {
-    const card = makeTrackerElement("div", undefined, "application-card");
-    card.style.cssText =
-      "border:1px solid #e3e7ee;border-radius:10px;padding:16px;" +
-      "margin-top:12px;background:#fff;";
-
-    const heading = makeTrackerElement(
-      "h3",
-      `${application.company} — ${application.title}`
-    );
-    heading.style.marginTop = "0";
-    card.appendChild(heading);
-
-    card.appendChild(makeTrackerElement(
-      "p",
-      `Date: ${application.date || "Not set"}`
-    ));
-
-    if (application.url) {
-      try {
-        const parsedUrl = new URL(application.url);
-        if (["https:", "http:"].includes(parsedUrl.protocol)) {
-          const link = makeTrackerElement("a", "Open job advertisement");
-          link.href = parsedUrl.href;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          card.appendChild(link);
-        }
-      } catch (error) {
-        // Ignore invalid URLs.
-      }
-    }
-
-    if (application.notes) {
-      const notes = makeTrackerElement("p", `Notes: ${application.notes}`);
-      notes.style.whiteSpace = "pre-wrap";
-      card.appendChild(notes);
-    }
-
-    const statusLabel = makeTrackerElement("label", "Update status");
-    const statusSelect = document.createElement("select");
-
-    trackerStatuses.forEach(status => {
-      const option = document.createElement("option");
-      option.value = status;
-      option.textContent = status;
-      statusSelect.appendChild(option);
-    });
-
-    statusSelect.value = trackerStatuses.includes(application.status)
-      ? application.status
-      : "Interested";
-
-    statusSelect.addEventListener("change", () => {
-      const latest = getApplications();
-      const match = latest.find(item => item.id === application.id);
-      if (!match) return;
-      match.status = statusSelect.value;
-      if (saveApplications(latest)) {
-        setTrackerMessage("Application status updated.");
-        renderApplications();
-      }
-    });
-
-    statusLabel.appendChild(statusSelect);
-    card.appendChild(statusLabel);
-
-    const deleteButton = makeTrackerElement(
-      "button",
-      "Delete application",
-      "secondary"
-    );
-    deleteButton.type = "button";
-    deleteButton.style.marginTop = "12px";
-
-    deleteButton.addEventListener("click", () => {
-      if (!confirm(`Delete the application for ${application.company}?`)) {
-        return;
-      }
-      const latest = getApplications().filter(
-        item => item.id !== application.id
-      );
-      if (saveApplications(latest)) {
-        setTrackerMessage("Application deleted.");
-        renderApplications();
-      }
-    });
-
-    card.appendChild(deleteButton);
-    list.appendChild(card);
-  });
-}
-
-document.getElementById("addApplication").addEventListener("click", () => {
-  const company = document.getElementById("trackCompany").value.trim();
-  const title = document.getElementById("trackTitle").value.trim();
-  const url = document.getElementById("trackLink").value.trim();
-  const date = document.getElementById("trackDate").value;
-  const status = document.getElementById("trackStatus").value;
-  const notes = document.getElementById("trackNotes").value.trim();
-
-  if (!company || !title) {
-    setTrackerMessage("Please enter both company and job title.");
-    return;
-  }
-
-  if (url) {
-    try {
-      const parsedUrl = new URL(url);
-      if (!["https:", "http:"].includes(parsedUrl.protocol)) {
-        throw new Error("Invalid URL");
-      }
-    } catch (error) {
-      setTrackerMessage("Enter a valid job URL, including https://, or leave it blank.");
-      return;
-    }
-  }
-
-  const applications = getApplications();
-  applications.push({
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    company,
-    title,
-    url,
-    date,
-    status,
-    notes,
-    createdAt: Date.now()
-  });
-
-  if (saveApplications(applications)) {
-    document.getElementById("trackCompany").value = "";
-    document.getElementById("trackTitle").value = "";
-    document.getElementById("trackLink").value = "";
-    document.getElementById("trackDate").value = "";
-    document.getElementById("trackStatus").value = "Interested";
-    document.getElementById("trackNotes").value = "";
-    setTrackerMessage("Application added successfully.");
-    renderApplications();
-  }
-});
-
-document.getElementById("exportApplications").addEventListener("click", () => {
-  const applications = getApplications();
-  if (!applications.length) {
-    setTrackerMessage("Add at least one application before exporting.");
-    return;
-  }
-
-  const columns = [
-    "Company", "Job title", "URL", "Application date", "Status", "Notes"
-  ];
-  const rows = applications.map(item => [
-    item.company, item.title, item.url, item.date, item.status, item.notes
-  ]);
-
-  const csvCell = value =>
-    `"${String(value ?? "").replace(/"/g, '""')}"`;
-
-  const csv = [columns, ...rows]
-    .map(row => row.map(csvCell).join(","))
-    .join("\r\n");
-
-  const blob = new Blob(["\uFEFF" + csv], {
-    type: "text/csv;charset=utf-8;"
-  });
-  const downloadUrl = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = downloadUrl;
-  link.download = "rashins-job-applications.csv";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(downloadUrl);
-  setTrackerMessage("CSV export downloaded.");
-});
-
-renderApplications();
 </main>
 
 <div id="printArea" class="print-only"></div>
@@ -537,6 +354,10 @@ renderApplications();
 </footer>
 
 <script>
+"use strict";
+
+/* MASTER PROFILE */
+
 const starterProfile = `RASHIN MOJTAHEDI
 Barcelona, Spain
 
@@ -552,13 +373,13 @@ Ola Living — Reservations & Customer Support
 Barcelona, Spain | September 2025 – Present
 - Handle guest enquiries and reservation-related requests for tourist apartments.
 - Coordinate with internal teams to resolve booking, access, and service issues.
-- Use Avantio, Kross Booking, Opera PMS, Amadeus GDS, Breezeway, and Salto KS/Akile​​s access-management tools in daily workflows.
+- Use Avantio, Kross Booking, Opera PMS, Amadeus GDS, Breezeway, and Salto KS/Akile access-management tools in daily workflows.
 
 easyJet holidays — Operations Specialist
 Barcelona, Spain | March 2025 – September 2025
 - Supported accommodation operations and booking-related incidents.
 - Helped coordinate solutions for service disruptions and guest requests.
-- Managed multiple operational tasks and communicated with customers and stakeholders.
+- Managed operational tasks and communicated with customers and stakeholders.
 
 Anima Hotels Relais & Châteaux — Sales Assistant
 Barcelona, Spain | June 2024 – October 2024
@@ -576,7 +397,7 @@ Master's Degree in Hotel Management — Universitat Autònoma de Barcelona (UAB)
 Bachelor's Degree in Geography and GIS — Shahid Beheshti University, 2018–2022.
 
 TOOLS & SKILLS
-Hospitality systems: Opera PMS, Amadeus GDS, Avantio, Kross Booking, Breezeway, Salto KS/Akile​​s.
+Hospitality systems: Opera PMS, Amadeus GDS, Avantio, Kross Booking, Breezeway, Salto KS/Akile.
 Software and data: Excel, Power BI, SPSS, Jira, Canva.
 CRM: HubSpot and Salesforce (foundational knowledge / exposure).
 Core skills: Customer support, reservations, hospitality operations, sales support, service coordination, data analysis, and client relationship management.
@@ -588,10 +409,8 @@ Spanish: Professional working proficiency.
 Italian: Elementary.
 
 CERTIFICATIONS & TRAINING
-Foundations of Project Management — Google / Coursera.
+Foundations of Project Management — Google / Coursera, completed.
 Sales Skills Certification — SEPE.
-SAP ERP training — include only if still in progress.
-Digital Marketing certification — include only if completed and verified.
 
 IMPORTANT
 Use only facts that are accurate and verifiable. Confirm all dates, job titles, qualifications, and certifications before applying. Do not invent numbers, achievements, or expertise.`;
@@ -634,32 +453,36 @@ document.getElementById("saveProfile").addEventListener("click", () => {
 });
 
 document.getElementById("restoreProfile").addEventListener("click", () => {
-  if (!confirm("Replace the current profile text with the starter profile?")) return;
+  if (!confirm("Replace the current profile text with the starter profile?")) {
+    return;
+  }
   profileEl.value = starterProfile;
-  setStatus("profileStatus", "Starter profile restored. Click Save profile on this device to save it.");
+  setStatus("profileStatus",
+    "Starter profile restored. Click Save profile to save it on this device.");
 });
 
 document.getElementById("generatePrompt").addEventListener("click", () => {
   const profile = profileEl.value.trim();
   const job = document.getElementById("jobDescription").value.trim();
   const company = document.getElementById("company").value.trim() || "Not specified";
-  const title = document.getElementById("jobTitle").value.trim() || "Infer from the job description";
+  const title = document.getElementById("jobTitle").value.trim() ||
+    "Infer from the job description";
   const language = document.getElementById("language").value;
   const length = document.getElementById("length").value;
 
   if (!profile) {
-    setStatus("promptStatus", "Please enter your master profile first.");
+    setStatus("promptStatus", "Enter your master profile first.");
     return;
   }
   if (!job) {
-    setStatus("promptStatus", "Please paste the job description first.");
+    setStatus("promptStatus", "Paste the job description first.");
     return;
   }
 
   promptEl.value = `Act as an experienced CV writer and recruitment specialist.
 
 GOAL
-Analyze the job advertisement and prepare a tailored CV for the candidate using only the verified information in the master profile.
+Prepare a tailored, ATS-friendly CV using only verified information.
 
 TARGET
 Company: ${company}
@@ -667,19 +490,18 @@ Job title: ${title}
 CV language: ${language}
 Preferred length: ${length}
 
-TASKS
+INSTRUCTIONS
 1. Identify the role's main responsibilities, essential skills, and keywords.
-2. Compare the requirements with the candidate's documented experience.
-3. Prioritize relevant experience, transferable skills, and tools.
-4. Write a clear, ATS-friendly CV in ${language}.
-5. Use natural, professional language that is easy to understand.
-6. Keep the CV to ${length.toLowerCase()}.
-7. Do not invent skills, dates, qualifications, metrics, responsibilities, or achievements.
-8. Do not describe basic exposure to HubSpot or Salesforce as expert-level experience.
-9. Do not add a certification unless the profile confirms it was completed.
-10. If important information is missing, list questions separately rather than guessing.
-11. Return the final CV first, then a short list of keywords matched and any factual questions that need confirmation.
-12. Do not include a photo, date of birth, nationality, or personal details unless explicitly required and supplied.
+2. Match the requirements to documented experience and transferable skills.
+3. Prioritize relevant experience, tools, and qualifications.
+4. Use natural, professional language.
+5. Keep the CV to ${length.toLowerCase()}.
+6. Never invent skills, dates, qualifications, metrics, responsibilities, or achievements.
+7. Do not present foundational exposure to HubSpot or Salesforce as expert-level experience.
+8. Do not add unverified certifications.
+9. Ask questions separately if important facts are missing.
+10. Return the CV first, followed by a short keyword-match assessment and factual questions.
+11. Do not add a photo, date of birth, nationality, or other personal details unless required and provided.
 
 MASTER PROFILE
 ${profile}
@@ -687,23 +509,26 @@ ${profile}
 FULL JOB DESCRIPTION
 ${job}
 
-Now analyze the job and write the tailored CV.`;
+Now prepare the tailored CV.`;
 
-  setStatus("promptStatus", "Prompt prepared. Copy it into ChatGPT to generate your CV.");
+  setStatus("promptStatus",
+    "Prompt prepared. Copy it into ChatGPT to generate your tailored CV.");
 });
 
 document.getElementById("copyPrompt").addEventListener("click", async () => {
   if (!promptEl.value.trim()) {
-    setStatus("promptStatus", "Generate the prompt first.");
+    setStatus("promptStatus", "Prepare the prompt first.");
     return;
   }
+
   try {
     await navigator.clipboard.writeText(promptEl.value);
-    setStatus("promptStatus", "Prompt copied. Open ChatGPT and paste it into the chat.");
+    setStatus("promptStatus", "Prompt copied. Open ChatGPT and paste it.");
   } catch (error) {
     promptEl.focus();
     promptEl.select();
-    setStatus("promptStatus", "Select the highlighted prompt and press Ctrl+C to copy.");
+    setStatus("promptStatus",
+      "Press Ctrl+C to copy the selected prompt.");
   }
 });
 
@@ -713,14 +538,17 @@ document.getElementById("openChatGPT").addEventListener("click", () => {
 
 function updatePreview() {
   const text = cvDraftEl.value.trim();
+
   if (!text) {
-    setStatus("cvStatus", "Paste your final CV text before creating a preview.");
+    setStatus("cvStatus", "Paste your final CV before creating a preview.");
     return false;
   }
+
   previewEl.textContent = text;
   printAreaEl.textContent = text;
   saveToDevice("rashinsCVDraft", cvDraftEl.value);
-  setStatus("cvStatus", "Preview updated. Review the layout before saving your PDF.");
+  setStatus("cvStatus",
+    "Preview updated. Review the layout before saving your PDF.");
   return true;
 }
 
@@ -733,6 +561,7 @@ document.getElementById("printCV").addEventListener("click", () => {
 
 document.getElementById("clearCV").addEventListener("click", () => {
   if (!confirm("Clear the CV draft from this page?")) return;
+
   cvDraftEl.value = "";
   previewEl.textContent = "Your CV preview will appear here.";
   printAreaEl.textContent = "";
@@ -744,6 +573,270 @@ if (cvDraftEl.value.trim()) {
   previewEl.textContent = cvDraftEl.value;
   printAreaEl.textContent = cvDraftEl.value;
 }
+
+/* JOB APPLICATION DASHBOARD */
+
+const trackerStorageKey = "rashinsCVApplications";
+
+const trackerStatuses = [
+  "Interested",
+  "Preparing application",
+  "Applied",
+  "Interview",
+  "Offer",
+  "Rejected",
+  "Withdrawn"
+];
+
+function getApplications() {
+  try {
+    const raw = localStorage.getItem(trackerStorageKey);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveApplications(applications) {
+  try {
+    localStorage.setItem(trackerStorageKey, JSON.stringify(applications));
+    return true;
+  } catch (error) {
+    setStatus("trackerStatus",
+      "Could not save. Check your browser's local storage settings.");
+    return false;
+  }
+}
+
+function renderApplications() {
+  const applications = getApplications();
+  const list = document.getElementById("applicationList");
+  const summary = document.getElementById("trackerSummary");
+
+  list.replaceChildren();
+
+  const interviews = applications.filter(
+    item => item.status === "Interview"
+  ).length;
+  const offers = applications.filter(
+    item => item.status === "Offer"
+  ).length;
+  const active = applications.filter(
+    item => ["Applied", "Interview", "Offer"].includes(item.status)
+  ).length;
+
+  summary.textContent =
+    `Total: ${applications.length} · Applied or further: ${active}` +
+    ` · Interviews: ${interviews} · Offers: ${offers}`;
+
+  if (!applications.length) {
+    list.textContent = "Your saved applications will appear here.";
+    return;
+  }
+
+  applications.sort(
+    (a, b) => (b.createdAt || 0) - (a.createdAt || 0)
+  );
+
+  applications.forEach(application => {
+    const card = document.createElement("div");
+    card.className = "application-card";
+
+    const heading = document.createElement("h3");
+    heading.textContent = `${application.company} — ${application.title}`;
+    card.appendChild(heading);
+
+    const date = document.createElement("p");
+    date.textContent = `Application date: ${application.date || "Not set"}`;
+    card.appendChild(date);
+
+    if (application.url) {
+      try {
+        const parsedUrl = new URL(application.url);
+
+        if (["https:", "http:"].includes(parsedUrl.protocol)) {
+          const link = document.createElement("a");
+          link.href = parsedUrl.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Open job advertisement";
+          card.appendChild(link);
+        }
+      } catch (error) {
+        // Ignore invalid saved URLs.
+      }
+    }
+
+    if (application.notes) {
+      const notes = document.createElement("p");
+      notes.className = "notes";
+      notes.textContent = `Notes: ${application.notes}`;
+      card.appendChild(notes);
+    }
+
+    const statusLabel = document.createElement("label");
+    statusLabel.textContent = "Update status";
+
+    const statusSelect = document.createElement("select");
+
+    trackerStatuses.forEach(status => {
+      const option = document.createElement("option");
+      option.value = status;
+      option.textContent = status;
+      statusSelect.appendChild(option);
+    });
+
+    statusSelect.value = trackerStatuses.includes(application.status)
+      ? application.status
+      : "Interested";
+
+    statusSelect.addEventListener("change", () => {
+      const latest = getApplications();
+      const item = latest.find(entry => entry.id === application.id);
+
+      if (!item) return;
+
+      item.status = statusSelect.value;
+
+      if (saveApplications(latest)) {
+        setStatus("trackerStatus", "Application status updated.");
+        renderApplications();
+      }
+    });
+
+    statusLabel.appendChild(statusSelect);
+    card.appendChild(statusLabel);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "secondary";
+    deleteButton.style.marginTop = "12px";
+    deleteButton.textContent = "Delete application";
+
+    deleteButton.addEventListener("click", () => {
+      if (!confirm(`Delete the application for ${application.company}?`)) {
+        return;
+      }
+
+      const remaining = getApplications().filter(
+        item => item.id !== application.id
+      );
+
+      if (saveApplications(remaining)) {
+        setStatus("trackerStatus", "Application deleted.");
+        renderApplications();
+      }
+    });
+
+    card.appendChild(deleteButton);
+    list.appendChild(card);
+  });
+}
+
+document.getElementById("addApplication").addEventListener("click", () => {
+  const company = document.getElementById("trackCompany").value.trim();
+  const title = document.getElementById("trackTitle").value.trim();
+  const url = document.getElementById("trackLink").value.trim();
+  const date = document.getElementById("trackDate").value;
+  const status = document.getElementById("trackStatus").value;
+  const notes = document.getElementById("trackNotes").value.trim();
+
+  if (!company || !title) {
+    setStatus("trackerStatus", "Enter both the company and job title.");
+    return;
+  }
+
+  if (url) {
+    try {
+      const parsedUrl = new URL(url);
+      if (!["https:", "http:"].includes(parsedUrl.protocol)) {
+        throw new Error("Invalid URL");
+      }
+    } catch (error) {
+      setStatus("trackerStatus",
+        "Enter a valid URL starting with https:// or http://.");
+      return;
+    }
+  }
+
+  const applications = getApplications();
+
+  applications.push({
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    company,
+    title,
+    url,
+    date,
+    status,
+    notes,
+    createdAt: Date.now()
+  });
+
+  if (saveApplications(applications)) {
+    document.getElementById("trackCompany").value = "";
+    document.getElementById("trackTitle").value = "";
+    document.getElementById("trackLink").value = "";
+    document.getElementById("trackDate").value = "";
+    document.getElementById("trackStatus").value = "Interested";
+    document.getElementById("trackNotes").value = "";
+
+    setStatus("trackerStatus", "Application added successfully.");
+    renderApplications();
+  }
+});
+
+document.getElementById("exportApplications").addEventListener("click", () => {
+  const applications = getApplications();
+
+  if (!applications.length) {
+    setStatus("trackerStatus",
+      "Add at least one application before exporting.");
+    return;
+  }
+
+  const columns = [
+    "Company",
+    "Job title",
+    "URL",
+    "Application date",
+    "Status",
+    "Notes"
+  ];
+
+  const rows = applications.map(item => [
+    item.company,
+    item.title,
+    item.url,
+    item.date,
+    item.status,
+    item.notes
+  ]);
+
+  const csvCell = value =>
+    `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+  const csv = [columns, ...rows]
+    .map(row => row.map(csvCell).join(","))
+    .join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const downloadUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.download = "rashins-job-applications.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(downloadUrl);
+
+  setStatus("trackerStatus", "CSV export downloaded.");
+});
+
+renderApplications();
 </script>
 </body>
 </html>
