@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal CV Studio | Rashin Mojtahedi</title>
+<style>
+:root {
+  --green:#26382f;
+  --accent:#607b65;
+  --cream:#f7f5f0;
+  --ink:#292820;
+  --muted:#6c7069;
+  --line:#e5e0d6;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font:16px/1.65 Arial,Helvetica,sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+}
+header {
+  background:var(--green);
+  color:white;
+  padding:30px 20px;
+}
+.header-inner, main {
+  max-width:1000px;
+  margin:auto;
+}
+header h1 {
+  font-family:Georgia,serif;
+  margin:0;
+  font-size:32px;
+}
+header p { color:#e0e7df; margin:5px 0 0; }
+main { padding:24px 16px 50px; }
+section {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:24px;
+  margin-bottom:20px;
+}
+h2 {
+  font-family:Georgia,serif;
+  color:var(--green);
+  margin-top:0;
+}
+h3 { margin-bottom:5px; }
+small,.muted { color:var(--muted); }
+label {
+  display:block;
+  font-weight:700;
+  margin:15px 0 6px;
+}
+input,select,textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #cbcfc7;
+  border-radius:7px;
+  font:inherit;
+  background:white;
+  color:var(--ink);
+}
+textarea { min-height:130px; resize:vertical; }
+#profile { min-height:320px; }
+#jobAd { min-height:240px; }
+button {
+  border:0;
+  border-radius:7px;
+  padding:11px 16px;
+  cursor:pointer;
+  font:inherit;
+  font-weight:700;
+  margin:8px 8px 0 0;
+}
+.primary { background:var(--green); color:white; }
+.secondary { background:#edf1eb; color:var(--green); }
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.note {
+  padding:13px;
+  border-radius:8px;
+  background:#f2f4ef;
+  font-size:14px;
+}
+.status { min-height:24px; color:var(--accent); }
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:20px;
+}
+@media(max-width:650px) {
+  .grid { grid-template-columns:1fr; }
+  section { padding:18px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>Rashin's CV Studio</h1>
+    <p>Your personal workspace for tailored English and Spanish CVs</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>01 — Master Profile</h2>
+    <p class="muted">
+      Your career facts are the source for every tailored CV.
+      Edit them when your experience changes.
+    </p>
+
+    <label for="profile">Your career information</label>
+    <textarea id="profile"></textarea>
+
+    <button class="primary" onclick="saveProfile()">Save profile on this device</button>
+    <button class="secondary" onclick="resetProfile()">Restore starter profile</button>
+    <p id="profileStatus" class="status" role="status"></p>
+
+    <div class="note">
+      Privacy: this profile is saved in this browser only. It is not
+      synchronized between devices. Avoid entering passwords, ID numbers,
+      or other sensitive personal information.
+    </div>
+  </section>
+
+  <section>
+    <h2>02 — Target Job</h2>
+    <div class="grid">
+      <div>
+        <label for="company">Company name (optional)</label>
+        <input id="company" placeholder="e.g. Sage">
+      </div>
+      <div>
+        <label for="title">Job title (optional)</label>
+        <input id="title" placeholder="e.g. Inbound SDR">
+      </div>
+    </div>
+
+    <label for="language">CV language</label>
+    <select id="language">
+      <option value="English">English</option>
+      <option value="Spanish">Spanish</option>
+    </select>
+
+    <label for="format">CV length</label>
+    <select id="format">
+      <option value="One page if the content remains readable">One page</option>
+      <option value="Up to two pages when relevant evidence requires it">Up to two pages</option>
+    </select>
+
+    <label for="jobAd">Paste the full job description</label>
+    <textarea id="jobAd" placeholder="Paste the job advertisement here..."></textarea>
+
+    <button class="primary" onclick="generatePrompt()">Analyze job and prepare my CV prompt</button>
+  </section>
+
+  <section id="outputSection" hidden>
+    <h2>03 — Your Tailoring Instructions</h2>
+    <p>
+      Copy the generated instructions into ChatGPT. It will analyze the
+      job description against your master profile and draft the tailored CV.
+    </p>
+    <label for="output">Personalized prompt</label>
+    <textarea id="output" readonly></textarea>
+
+    <button class="primary" onclick="copyPrompt()">Copy prompt</button>
+    <button class="secondary" onclick="openChatGPT()">Open ChatGPT</button>
+    <p id="copyStatus" class="status" role="status"></p>
+  </section>
+
+  <section>
+    <h2>How this version works</h2>
+    <ol>
+      <li>Maintain your master profile once.</li>
+      <li>Paste a new job advertisement.</li>
+      <li>Generate a role-specific prompt.</li>
+      <li>Send the prompt to ChatGPT to draft the CV.</li>
+      <li>Review every claim before applying.</li>
+    </ol>
+    <p class="note">
+      This free version prepares the analysis instructions; it does not
+      call an AI model automatically or create a PDF inside this website.
+    </p>
+  </section>
+</main>
+
+<footer>Personal career workspace · Rashin Mojtahedi</footer>
+
+<script>
+const starterProfile = `NAME
+Rashin Mojtahedi
+Location: Barcelona, Spain
+
+CAREER DIRECTION
+Interested in Customer Success, Customer Onboarding, B2B sales,
+SDR/BDR, commercial operations, marketing and hospitality technology.
+
+EXPERIENCE
+
+Ola Living — Reservations & Customer Support
+Barcelona | September 2025–Present
+- Handle guest enquiries and reservation-related requests for tourist apartments.
+- Coordinate with internal teams to resolve booking, access and service issues.
+- Use hospitality systems and operational tools in daily workflows.
+- Tools used include Avantio, Kross Booking, Opera PMS, Amadeus GDS,
+  Breezeway and access-management tools.
+
+EZ Holidays — Operations Specialist
+Barcelona | March 2025–September 2025
+- Supported accommodation operations and booking-related incidents.
+- Helped coordinate solutions for service disruptions and guest requests.
+
+Anima Hotels — Sales Assistant
+2024
+- Supported sales activities, booking processes and customer database management.
+- Previous work involved hotel clients and premium hospitality contexts.
+
+EDUCATION
+- Master's in Marketing and Commercial Management, VIU, started in 2026.
+- Master's in Hotel Management, Universitat Autònoma de Barcelona (UAB).
+- Bachelor's in Geography and GIS, Shahid Beheshti University, 2018–2022.
+
+TOOLS AND SKILLS
+Opera PMS, Amadeus GDS, Avantio, Kross Booking, Breezeway,
+Salto KS/Akiles, Excel, Power BI, SPSS, Jira and Canva.
+Some exposure to HubSpot and Salesforce; not advanced expertise.
+Customer support, reservations, hospitality operations, sales support,
+service coordination and data analysis.
+
+LANGUAGES
+Persian: native. Spanish and English: do not assign proficiency levels
+unless I provide verified levels.
+
+IMPORTANT LIMITS
+Do not invent achievements, metrics, responsibilities, software proficiency,
+qualifications, dates, language levels, sales quotas or cold-calling experience.
+If a fact is missing, ask me to confirm it.`;
+
+const profileField = document.getElementById("profile");
+
+function saveProfile() {
+  try {
+    localStorage.setItem("rashinsCvProfile", profileField.value);
+    document.getElementById("profileStatus").textContent =
+      "Profile saved in this browser.";
+  } catch (e) {
+    document.getElementById("profileStatus").textContent =
+      "Browser storage is unavailable. Keep a private backup of your profile.";
+  }
+}
+
+function resetProfile() {
+  if (!confirm("Restore the starter profile? Your current edits will be replaced.")) return;
+  profileField.value = starterProfile;
+  saveProfile();
+}
+
+function generatePrompt() {
+  const profile = profileField.value.trim();
+  const jobAd = document.getElementById("jobAd").value.trim();
+  const company = document.getElementById("company").value.trim() || "Not specified";
+  const title = document.getElementById("title").value.trim() || "Identify from the advertisement";
+  const language = document.getElementById("language").value;
+  const length = document.getElementById("format").value;
+
+  if (!profile || !jobAd) {
+    alert("Please provide both your master profile and the full job description.");
+    return;
+  }
+
+  const prompt = `You are an expert CV strategist, ATS resume writer and career coach.
+
+OBJECTIVE
+Create a tailored, evidence-based CV for this specific vacancy.
+
+CANDIDATE
+Rashin Mojtahedi
+Location: Barcelona, Spain
+Company: ${company}
+Target job title: ${title}
+CV language: ${language}
+Length: ${length}
+
+MASTER PROFILE — THE SOURCE OF TRUTH
+${profile}
+
+JOB DESCRIPTION
+"""
+${jobAd}
+"""
+
+YOUR TASKS
+1. Analyze the vacancy and identify its core responsibilities, must-have
+   requirements, preferred qualifications and repeated keywords.
+2. Identify the strongest evidence in the master profile for this position.
+3. Distinguish direct experience from transferable skills and genuine gaps.
+4. Write a targeted professional headline and summary.
+5. Reorder skills according to relevance. Include only skills supported
+   by the master profile.
+6. Rewrite experience bullets to emphasize relevant, truthful contributions.
+   Use clear action verbs and specific outcomes only when evidenced.
+7. Optimize natural keyword alignment for ATS without keyword stuffing.
+8. Use standard headings and a clean, ATS-readable layout.
+9. Do not invent achievements, numbers, employers, dates, qualifications,
+   language levels, software expertise, sales quotas or responsibilities.
+10. Do not claim cold-calling, quota-carrying or direct SaaS sales experience
+    unless the master profile explicitly supports it.
+11. Do not omit a material fact merely because it is not in the job ad.
+12. Write the CV in ${language}, using natural professional language.
+13. If important information is missing, do not guess. List questions after
+    the CV so I can improve a later version.
+
+RETURN IN THIS ORDER
+A. Brief match assessment: strongest evidence and important gaps.
+B. The complete tailored CV, ready for my review.
+C. A short list of keywords included and why.
+D. Questions for me to confirm any uncertain details.
+E. Suggested improvements that would strengthen my candidacy without
+   exaggerating my experience.
+
+Make the CV specific to this vacancy, not a generic CV.`;
+
+  document.getElementById("output").value = prompt;
+  document.getElementById("outputSection").hidden = false;
+  document.getElementById("copyStatus").textContent = "";
+  document.getElementById("outputSection").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+async function copyPrompt() {
+  const output = document.getElementById("output");
+  const status = document.getElementById("copyStatus");
+  try {
+    await navigator.clipboard.writeText(output.value);
+    status.textContent = "Copied. Open ChatGPT and paste the prompt.";
+  } catch (e) {
+    output.focus();
+    output.select();
+    status.textContent = "Press Ctrl+C to copy the selected text.";
+  }
+}
+
+function openChatGPT() {
+  window.open("https://chatgpt.com/", "_blank", "noopener");
+}
+
+try {
+  profileField.value =
+    localStorage.getItem("rashinsCvProfile") || starterProfile;
+} catch (e) {
+  profileField.value = starterProfile;
+}
+</script>
+</body>
+</html>
