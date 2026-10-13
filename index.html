@@ -2,128 +2,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rashin M. | Professional Profile</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: #f7f5f0;
-      color: #292820;
-      line-height: 1.7;
-    }
-    header {
-      background: #26382f;
-      color: #fff;
-      padding: 55px 20px;
-      text-align: center;
-    }
-    header h1 { font-size: 38px; margin: 0; }
-    header p { color: #e3e5dc; }
-    main {
-      max-width: 850px;
-      margin: 35px auto;
-      padding: 0 22px;
-    }
-    section {
-      background: white;
-      padding: 25px;
-      margin-bottom: 20px;
-      border: 1px solid #e5e0d6;
-      border-radius: 8px;
-    }
-    h2 {
-      color: #435b49;
-      border-bottom: 1px solid #ddd7ca;
-      padding-bottom: 8px;
-    }
-    .job { margin-bottom: 22px; }
-    footer { text-align: center; padding: 25px; color: #777; }
-    a { color: #435b49; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rashin Mojtahedi | Professional Portfolio</title>
+<style>
+:root {
+  --green: #26382f;
+  --accent: #607b65;
+  --cream: #f7f5f0;
+  --text: #292820;
+  --muted: #6c7069;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.7;
+}
+header {
+  background: var(--green);
+  color: white;
+  padding: 55px 20px 40px;
+  text-align: center;
+}
+header h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(32px, 5vw, 48px);
+  margin: 0;
+  letter-spacing: 1px;
+}
+header p { color: #e0e7df; margin: 8px 0; }
+.tagline { font-size: 16px; }
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+button {
+  cursor: pointer;
+  border: 1px solid #dbe2d9;
+  border-radius: 25px;
+  padding: 9px 18px;
+  font-weight: bold;
+  background: transparent;
+  color: white;
+}
+button.active, button:hover {
+  background: white;
+  color: var(--green);
+}
+main {
+  max-width: 900px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+section {
+  background: white;
+  padding: 25px 28px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e0d6;
+  border-radius: 12px;
+}
+h2 {
+  font-family: Georgia, serif;
+  color: var(--green);
+  border-bottom: 1px solid #e5e0d6;
+  padding-bottom: 9px;
+  margin-top: 0;
+}
+.job { margin-bottom: 24px; }
+.job:last-child { margin-bottom: 0; }
+.job h3 { margin-bottom: 3px; }
+.meta { color: var(--muted); font-size: 14px; margin-top: 0; }
+ul { padding-left: 22px; }
+li { margin-bottom: 5px; }
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.skill {
+  background: #edf1eb;
+  color: var(--green);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+a { color: var(--accent); }
+footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  font-size: 13px;
+}
+[dir="rtl"] { text-align: right; }
+[dir="rtl"] ul { padding-left: 0; padding-right: 22px; }
+@media(max-width:600px) {
+  header { padding: 40px 16px 30px; }
+  section { padding: 20px; }
+  main { padding: 0 13px; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Rashin M.</h1>
-    <p>Customer Operations | Hospitality Technology | Sales & Marketing</p>
-    <p>Barcelona, Spain</p>
-  </header>
+<header>
+  <h1>Rashin Mojtahedi</h1>
+  <p class="tagline" data-en="Customer Operations | Hospitality Technology | Sales & Marketing"
+     data-es="Operaciones de clientes | Tecnología hotelera | Ventas y Marketing">
+    Customer Operations | Hospitality Technology | Sales & Marketing
+  </p>
+  <p>Barcelona, Spain</p>
+  <nav aria-label="Language">
+    <button id="enBtn" class="active" onclick="setLanguage('en')">English</button>
+    <button id="esBtn" onclick="setLanguage('es')">Español</button>
+  </nav>
+</header>
 
-  <main>
-    <section>
-      <h2>Profile</h2>
-      <p>
-        Customer operations and hospitality professional with experience
-        in reservations, guest support, and service coordination.
-        Currently developing expertise in marketing and commercial
-        management, with an interest in technology-driven businesses
-        and customer success.
+<main>
+  <section>
+    <h2 data-en="Professional Profile" data-es="Perfil profesional">Professional Profile</h2>
+    <p data-en="Customer operations and hospitality professional with experience in reservations, guest support and service coordination. Currently studying Marketing and Commercial Management, with an interest in technology-driven businesses, customer success and consultative sales."
+       data-es="Profesional de operaciones de clientes y del sector hotelero con experiencia en reservas, atención al huésped y coordinación de servicios. Actualmente cursando Dirección de Marketing y Gestión Comercial, con interés en empresas tecnológicas, customer success y ventas consultivas.">
+      Customer operations and hospitality professional with experience in reservations, guest support and service coordination. Currently studying Marketing and Commercial Management, with an interest in technology-driven businesses, customer success and consultative sales.
+    </p>
+  </section>
+
+  <section>
+    <h2 data-en="Professional Experience" data-es="Experiencia profesional">Professional Experience</h2>
+    <div class="job">
+      <h3>Ola Living</h3>
+      <p class="meta" data-en="Reservations & Customer Support | Barcelona | Sep 2025 – Present"
+         data-es="Reservas y atención al cliente | Barcelona | Sep 2025 – Actualidad">
+        Reservations & Customer Support | Barcelona | Sep 2025 – Present
       </p>
-    </section>
+      <ul>
+        <li data-en="Manage guest enquiries and reservation-related requests across multiple tourist apartments."
+            data-es="Gestiono consultas de huéspedes y solicitudes relacionadas con reservas en múltiples apartamentos turísticos.">
+          Manage guest enquiries and reservation-related requests across multiple tourist apartments.
+        </li>
+        <li data-en="Coordinate with internal teams to help resolve booking, access and service issues."
+            data-es="Coordino con equipos internos para ayudar a resolver incidencias de reservas, accesos y servicios.">
+          Coordinate with internal teams to help resolve booking, access and service issues.
+        </li>
+        <li data-en="Use hospitality systems and operational tools to support daily workflows."
+            data-es="Utilizo sistemas hoteleros y herramientas operativas para apoyar los procesos diarios.">
+          Use hospitality systems and operational tools to support daily workflows.
+        </li>
+      </ul>
+    </div>
 
-    <section>
-      <h2>Experience</h2>
-      <div class="job">
-        <h3>Customer Service & Reservations Support</h3>
-        <p><strong>Ola Living | Barcelona</strong> · Sep 2025 – Present</p>
-        <p>
-          Support reservation operations and customer enquiries for
-          tourist apartments, coordinating with guests and internal teams
-          using booking and property management systems.
-        </p>
-      </div>
-      <div class="job">
-        <h3>Operations Specialist</h3>
-        <p><strong>EZ Holidays | Barcelona</strong> · Mar 2025 – Sep 2025</p>
-        <p>
-          Supported daily travel operations, handled booking disruptions,
-          and helped coordinate solutions for reservation issues.
-        </p>
-      </div>
-      <div class="job">
-        <h3>Sales Assistant</h3>
-        <p><strong>Anima Hotels</strong> · 2024</p>
-        <p>
-          Supported sales activities, booking processes, and customer
-          database accuracy in the hospitality sector.
-        </p>
-      </div>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <p><strong>Master's in Marketing and Commercial Management</strong><br>
-      VIU · 2026 – Present</p>
-      <p><strong>Master's in Hotel Management</strong><br>
-      Universitat Autònoma de Barcelona</p>
-      <p><strong>Bachelor's in Geography and GIS</strong><br>
-      Shahid Beheshti University</p>
-    </section>
-
-    <section>
-      <h2>Skills</h2>
-      <p>
-        Customer Support · Reservations · Customer Operations ·
-        Amadeus GDS · Opera PMS · Avantio · Excel · Power BI · SPSS ·
-        Jira · Canva · Problem Solving · Cross-team Coordination
+    <div class="job">
+      <h3>EZ Holidays</h3>
+      <p class="meta" data-en="Operations Specialist | Barcelona | Mar 2025 – Sep 2025"
+         data-es="Especialista de Operaciones | Barcelona | Mar 2025 – Sep 2025">
+        Operations Specialist | Barcelona | Mar 2025 – Sep 2025
       </p>
-    </section>
+      <ul>
+        <li data-en="Supported day-to-day accommodation operations and booking-related incidents."
+            data-es="Apoyé las operaciones diarias de alojamientos y la gestión de incidencias relacionadas con reservas.">
+          Supported day-to-day accommodation operations and booking-related incidents.
+        </li>
+        <li data-en="Helped coordinate solutions for service disruptions and guest requests."
+            data-es="Colaboré en la coordinación de soluciones para interrupciones del servicio y solicitudes de huéspedes.">
+          Helped coordinate solutions for service disruptions and guest requests.
+        </li>
+      </ul>
+    </div>
 
-    <section>
-      <h2>Languages</h2>
-      <p>Persian · Spanish · English</p>
-    </section>
+    <div class="job">
+      <h3>Anima Hotels</h3>
+      <p class="meta" data-en="Sales Assistant | 2024"
+         data-es="Asistente de Ventas | 2024">
+        Sales Assistant | 2024
+      </p>
+      <ul>
+        <li data-en="Supported sales activities, booking processes and customer database management."
+            data-es="Apoyé las actividades comerciales, los procesos de reserva y la gestión de la base de datos de clientes.">
+          Supported sales activities, booking processes and customer database management.
+        </li>
+      </ul>
+    </div>
+  </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>Barcelona, Spain</p>
-      <p>Add your professional email and LinkedIn profile here.</p>
-    </section>
-  </main>
+  <section>
+    <h2 data-en="Education" data-es="Formación académica">Education</h2>
+    <div class="job">
+      <h3 data-en="Master’s Degree in Marketing and Commercial Management"
+          data-es="Máster Universitario en Dirección de Marketing y Gestión Comercial">
+        Master’s Degree in Marketing and Commercial Management
+      </h3>
+      <p class="meta">Universidad Internacional de Valencia (VIU) | 2026 – Present</p>
+    </div>
+    <div class="job">
+      <h3 data-en="Master’s Degree in Hotel Management"
+          data-es="Máster en Dirección Hotelera">
+        Master’s Degree in Hotel Management
+      </h3>
+      <p class="meta">Universitat Autònoma de Barcelona (UAB)</p>
+    </div>
+    <div class="job">
+      <h3 data-en="Bachelor’s Degree in Geography and GIS"
+          data-es="Grado en Geografía y Sistemas de Información Geográfica">
+        Bachelor’s Degree in Geography and GIS
+      </h3>
+      <p class="meta">Shahid Beheshti University | 2018 – 2022</p>
+    </div>
+  </section>
 
-  <footer>
-    © 2026 Rashin M. · Professional Portfolio
-  </footer>
+  <section>
+    <h2 data-en="Skills & Tools" data-es="Competencias y herramientas">Skills & Tools</h2>
+    <div class="skills">
+      <span class="skill">Customer Support</span>
+      <span class="skill">Reservations</span>
+      <span class="skill">Hotel Operations</span>
+      <span class="skill">Sales Support</span>
+      <span class="skill">Opera PMS</span>
+      <span class="skill">Amadeus GDS</span>
+      <span class="skill">Avantio</span>
+      <span class="skill">Kross Booking</span>
+      <span class="skill">Excel</span>
+      <span class="skill">Power BI</span>
+      <span class="skill">SPSS</span>
+      <span class="skill">Jira</span>
+      <span class="skill">Canva</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-en="Languages" data-es="Idiomas">Languages</h2>
+    <p data-en="Persian (Native) | Spanish | English"
+       data-es="Persa (nativo) | Español | Inglés">
+      Persian (Native) | Spanish | English
+    </p>
+  </section>
+
+  <section>
+    <h2 data-en="Contact" data-es="Contacto">Contact</h2>
+    <p data-en="Based in Barcelona, Spain. Open to opportunities in customer success, sales, commercial operations and marketing."
+       data-es="Residente en Barcelona, España. Interesada en oportunidades en customer success, ventas, operaciones comerciales y marketing.">
+      Based in Barcelona, Spain. Open to opportunities in customer success, sales, commercial operations and marketing.
+    </p>
+    <p data-en="Contact details available upon request."
+       data-es="Datos de contacto disponibles bajo petición.">
+      Contact details available upon request.
+    </p>
+  </section>
+</main>
+
+<footer>
+  © 2026 Rashin Mojtahedi
+</footer>
+
+<script>
+function setLanguage(lang) {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "es" ? "ltr" : "ltr";
+  document.querySelectorAll("[data-en]").forEach(function(element) {
+    element.textContent = element.getAttribute("data-" + lang);
+  });
+  document.getElementById("enBtn").classList.toggle("active", lang === "en");
+  document.getElementById("esBtn").classList.toggle("active", lang === "es");
+}
+</script>
 </body>
 </html>
