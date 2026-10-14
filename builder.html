@@ -1,9 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rashin's CV Studio</title>
+<style>
+:root {
+  --ink: #202938;
+  --muted: #667085;
+  --line: #e3e7ee;
+  --accent: #5146e5;
+  --soft: #f5f6fb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f5f6fa;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+header {
+  background: #202938;
+  color: white;
+  padding: 30px 20px;
+}
+.header-inner, main {
+  max-width: 960px;
+  margin: auto;
+}
+header h1 { margin: 0 0 4px; font-size: 28px; }
+header p { margin: 0; color: #d5d9e3; }
+main { padding: 24px 16px 48px; }
+section {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+h2 { font-size: 20px; margin: 0 0 8px; }
+h3 { font-size: 15px; margin: 18px 0 7px; }
+.description {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin: 13px 0 6px;
+  font-size: 14px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #cfd5df;
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+textarea { resize: vertical; min-height: 150px; }
+#profile { min-height: 300px; }
+#jobDescription { min-height: 200px; }
+#cvDraft { min-height: 320px; }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 15px;
+}
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+}
+button.secondary {
+  background: #eceef5;
+  color: #273247;
+}
+button:hover { opacity: .9; }
+.notice {
+  background: var(--soft);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  color: #505a6c;
+  margin-top: 14px;
+}
+.status {
+  min-height: 20px;
+  margin-top: 10px;
+  color: #256b47;
+  font-size: 13px;
+}
+#resumePreview {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  min-height: 250px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11pt;
+  line-height: 1.5;
+}
+footer {
+  text-align: center;
+  padding: 10px 20px 30px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.print-only { display: none; }
+#designedPreview { background:#fff; color:#172033; }
+.designed-name { font-size:22px; font-weight:700; color:#202938; margin-bottom:2px; }
+.designed-headline { font-size:13px; color:#5146e5; font-weight:700; margin-bottom:4px; }
+.designed-section-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; border-bottom:1px solid #d9deea; padding-bottom:3px; margin:13px 0 5px; }
+.designed-item { margin:0 0 8px; }
+.designed-item strong { display:block; }
+.output-controls { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+.output-controls button.active { background:#202938; color:white; }
+@media print { #printArea.designed-print { white-space:normal; } #printArea.designed-print .designed-section-title { break-after:avoid; } }
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  section { padding: 16px; }
+  header h1 { font-size: 24px; }
+}
+@page {
+  size: A4;
+  margin: 17mm 16mm;
+}
+@media print {
+  body { background: white; color: #111; }
+  header, main, footer { display: none !important; }
+  .print-only {
+    display: block !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.42;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Rashin's CV Studio</h1>
+    <p id="headerSubtitle">Your personal workspace for tailored English and Spanish CVs</p>
+    <div class="actions" style="margin-top:12px;">
+      <button type="button" class="secondary" id="uiEnglish">English interface</button>
+      <button type="button" class="secondary" id="uiSpanish">Interfaz en español</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>01 — Master Profile</h2>
+    <p class="description">
+      Maintain your verified career facts here. Use this as the source
+      for every tailored CV.
+    </p>
+
+    <label for="profile">Your career information</label>
+    <textarea id="profile" spellcheck="true"></textarea>
+
+    <div class="actions">
+      <button type="button" id="saveProfile">Save profile on this device</button>
+      <button type="button" class="secondary" id="restoreProfile">Restore starter profile</button>
+    </div>
+    <div id="profileStatus" class="status" aria-live="polite"></div>
+
+    <div class="notice">
+      Your profile is saved in this browser on this device. It is not
+      synchronized between devices. Avoid storing passwords, ID numbers,
+      or other sensitive personal information.
+    </div>
+  </section>
+
+  <section>
+    <h2>02 — Target Job</h2>
+    <p class="description">
+      Paste a job advertisement to prepare a tailored CV prompt.
+    </p>
+
+    <div class="grid">
+      <div>
+        <label for="company">Company name (optional)</label>
+        <input id="company" placeholder="e.g. Sage">
+      </div>
+      <div>
+        <label for="jobTitle">Job title (optional)</label>
+        <input id="jobTitle" placeholder="e.g. Junior SDR">
+      </div>
+      <div>
+        <label for="language">CV language</label>
+        <select id="language">
+          <option value="English">English</option>
+          <option value="Spanish">Spanish</option>
+        </select>
+      </div>
+      <div>
+        <label for="length">CV length</label>
+        <select id="length">
+          <option value="One page">One page</option>
+          <option value="Up to two pages">Up to two pages</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="jobDescription">Full job description</label>
+    <textarea id="jobDescription" placeholder="Paste the full job advertisement here..."></textarea>
+
+    <div class="actions">
+      <button type="button" id="generatePrompt">Prepare my CV prompt</button>
+    </div>
+
+    <label for="prompt">Tailored CV prompt</label>
+    <textarea id="prompt" readonly placeholder="Your generated prompt will appear here..."></textarea>
+
+    <div class="actions">
+      <button type="button" id="copyPrompt">Copy prompt</button>
+      <button type="button" class="secondary" id="openChatGPT">Open ChatGPT</button>
+    </div>
+    <div id="promptStatus" class="status" aria-live="polite"></div> 
+    <hr style="margin:24px 0;border:0;border-top:1px solid #e3e7ee;">
+
+    <h3>AI CV Generator</h3>
+    <p class="description">
+      Generate a tailored CV and a factual job-match assessment using your
+      verified profile and the job description above.
+    </p>
+
+    <label for="appPassword">Private app access password</label>
+    <input
+      id="appPassword"
+      type="password"
+      autocomplete="off"
+      placeholder="Enter your Cloudflare APP_PASSWORD"
+    >
+
+    <div class="actions">
+      <button type="button" id="generateAICV">
+        Generate tailored CV with AI
+      </button>
+    </div>
+
+    <div id="aiStatus" class="status" aria-live="polite"></div>
+
+    <div class="output-controls" aria-label="CV output language">
+      <button type="button" id="viewEnglish" class="active">View English CV</button>
+      <button type="button" id="viewSpanish">Ver CV en español</button>
+    </div>
+    <p id="outputLanguageHint" class="description">Both languages are generated in one AI request. Choose which version to preview or export.</p>
+
+    <h3 id="matchHeading">Job-match assessment</h3>
+    <div id="matchNotes" class="notice">
+      Your match assessment will appear here.
+    </div>
+    
+<div class="actions" style="margin-top:16px;">
+  <button type="button" id="useATSForPDF">
+    Prepare ATS version for PDF
+  </button>
+  <button type="button" id="useDesignedForPDF">
+    Prepare designed version for PDF
+  </button>
+</div>
+
+<h3>Designed CV preview</h3>
+<div id="designedPreview" class="notice" style="background:#fff;color:#172033;">
+  Generate a CV to see the designed version here.
+</div>
+
+<h3>Keyword analysis</h3>
+<div id="keywordAnalysis" class="notice">
+  Keyword analysis will appear here.
+</div>
+
+<h3>Questions to verify</h3>
+<div id="factualQuestions" class="notice">
+  Any questions about missing or unverified facts will appear here.
+</div>
+<!-- کد جدید تا اینجا تمام می‌شود -->
+
+</section>
+
+  <section>
+    <h2>03 — Final CV & PDF</h2>
+    <p class="description">
+      Paste your final CV, update the preview, and use Print / Save as PDF.
+    </p>
+
+    <label for="cvDraft">Final CV text</label>
+    <textarea id="cvDraft" placeholder="Paste your final CV here..."></textarea>
+
+    <div class="actions">
+      <button type="button" id="previewCV">Update CV preview</button>
+      <button type="button" id="printCV">Print / Save as PDF</button>
+      <button type="button" class="secondary" id="clearCV">Clear CV draft</button>
+    </div>
+
+    <h3>CV preview</h3>
+    <div id="resumePreview">Your CV preview will appear here.</div>
+    <div id="cvStatus" class="status" aria-live="polite"></div>
+
+    <div class="notice">
+      In the print dialog, select “Save as PDF”. Check page breaks,
+      dates, contact details, and factual accuracy before applying.
+    </div>
+  </section>
+
+  <section>
+    <h2 id="howHeading">How this version works</h2>
+    <ol id="howSteps">
+      <li>Save your master profile on this device.</li>
+      <li>Paste the job advertisement and generate both English and Spanish CVs.</li>
+      <li>Review the ATS version, designed version, keyword analysis, and factual questions.</li>
+      <li>Select a CV version and use Print / Save as PDF.</li>
+    </ol>
+    <p class="description" id="privacyNote">
+      AI CV generation connects to your private Cloudflare Worker. Your profile and CV draft remain in this browser. Review every generated detail for accuracy before applying.
+    </p>
+  </section>
+
+</main>
+
+<div id="printArea" class="print-only"></div>
+
+<footer>
+  Rashin's CV Studio · Personal career workspace
+</footer>
 
 <script>
-"use strict";
-
+"use strict"; 
 const AI_WORKER_ENDPOINT =
   "https://white-sun-dba1rashins-cv-ai.ramd7979.workers.dev/tailor-cv";
+
+
+/* MASTER PROFILE */
 
 const starterProfile = `RASHIN MOJTAHEDI
 Barcelona, Spain
@@ -118,16 +470,11 @@ document.getElementById("generatePrompt").addEventListener("click", () => {
   const length = document.getElementById("length").value;
 
   if (!profile) {
-    setStatus("promptStatus", uiLanguage === "es"
-      ? "Introduce primero tu perfil profesional."
-      : "Enter your master profile first.");
+    setStatus("promptStatus", uiLanguage === "es" ? "Introduce primero tu perfil profesional." : "Enter your master profile first.");
     return;
   }
-
   if (!job) {
-    setStatus("promptStatus", uiLanguage === "es"
-      ? "Pega primero la descripción de la oferta."
-      : "Paste the job description first.");
+    setStatus("promptStatus", uiLanguage === "es" ? "Pega primero la descripción de la oferta." : "Paste the job description first.");
     return;
   }
 
@@ -163,29 +510,152 @@ ${job}
 
 Now prepare the tailored CV.`;
 
-  setStatus("promptStatus", uiLanguage === "es"
-    ? "Prompt preparado. Cópialo en ChatGPT para generar tu CV personalizado."
-    : "Prompt prepared. Copy it into ChatGPT to generate your tailored CV.");
+  setStatus("promptStatus", uiLanguage === "es" ? "Prompt preparado. Cópialo en ChatGPT para generar tu CV personalizado." : "Prompt prepared. Copy it into ChatGPT to generate your tailored CV.");
 });
+
 
 let latestAIResult = null;
 let activeOutputLanguage = "english";
 let activePDFMode = "ats";
-</script>
+
+function safeText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function listText(value) {
+  if (Array.isArray(value)) return value.map(v => typeof v === "string" ? v : JSON.stringify(v)).join("\n");
+  if (typeof value === "string") return value;
+  return value == null ? "No information returned." : JSON.stringify(value, null, 2);
+}
+function designedToHtml(data) {
+  if (!data || typeof data !== "object") return "<p>Designed CV is not available.</p>";
+  const out = [];
+  if (data.name) out.push(`<div class="designed-name">${safeText(data.name)}</div>`);
+  if (data.headline) out.push(`<div class="designed-headline">${safeText(data.headline)}</div>`);
+  if (data.location) out.push(`<div>${safeText(data.location)}</div>`);
+  if (data.summary) out.push(`<div class="designed-section-title">Professional Summary</div><p>${safeText(data.summary)}</p>`);
+  const sections = [
+    ["experience", "Experience"], ["education", "Education"],
+    ["skills", "Skills"], ["languages", "Languages"],
+    ["certifications", "Certifications & Training"]
+  ];
+  for (const [key, label] of sections) {
+    const items = data[key];
+    if (!items || (Array.isArray(items) && !items.length)) continue;
+    out.push(`<div class="designed-section-title">${label}</div>`);
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        if (typeof item === "string") out.push(`<div class="designed-item">${safeText(item)}</div>`);
+        else if (item && typeof item === "object") {
+          const heading = item.role || item.title || item.degree || item.name || item.company || "";
+          const sub = [item.institution, item.company, item.location, item.dates || item.period].filter(Boolean).filter(v => v !== heading).join(" · ");
+          out.push(`<div class="designed-item"><strong>${safeText(heading)}</strong>${sub ? `<div>${safeText(sub)}</div>` : ""}`);
+          const desc = item.description || item.summary;
+          if (desc) out.push(`<div>${safeText(desc)}</div>`);
+          if (Array.isArray(item.bullets)) out.push(`<ul>${item.bullets.map(b=>`<li>${safeText(b)}</li>`).join("")}</ul>`);
+          out.push(`</div>`);
+        }
+      }
+    } else out.push(`<p>${safeText(listText(items))}</p>`);
+  }
+  return out.join("") || "<p>Designed CV is not available.</p>";
+}
+function currentPackage() {
+  return latestAIResult ? latestAIResult[activeOutputLanguage] : null;
+}
+function updateOutputView() {
+  const pkg = currentPackage();
+  if (!pkg) return;
+  document.getElementById("viewEnglish").classList.toggle("active", activeOutputLanguage === "english");
+  document.getElementById("viewSpanish").classList.toggle("active", activeOutputLanguage === "spanish");
+  document.getElementById("matchNotes").textContent = pkg.matchNotes || "No match assessment returned.";
+  document.getElementById("keywordAnalysis").textContent = listText(pkg.keywordAnalysis);
+  const questions = pkg.factualQuestions;
+  document.getElementById("factualQuestions").textContent = Array.isArray(questions) ? (questions.length ? questions.map((q,i)=>`${i+1}. ${typeof q === "string" ? q : JSON.stringify(q)}`).join("\n") : "No factual questions returned.") : listText(questions);
+  document.getElementById("designedPreview").innerHTML = designedToHtml(pkg.designed);
+  if (activePDFMode === "designed") {
+    printAreaEl.classList.add("designed-print");
+    printAreaEl.innerHTML = designedToHtml(pkg.designed);
+  } else {
+    printAreaEl.classList.remove("designed-print");
+    printAreaEl.textContent = pkg.cv || "";
+  }
+  cvDraftEl.value = pkg.cv || "";
+  previewEl.textContent = pkg.cv || "";
+  saveToDevice("rashinsCVDraft", cvDraftEl.value);
+  setStatus("cvStatus", activeOutputLanguage === "english" ? "English CV loaded into the editor." : "CV en español cargado en el editor.");
+}
+
+document.getElementById("viewEnglish").addEventListener("click", () => { activeOutputLanguage = "english"; updateOutputView(); });
+document.getElementById("viewSpanish").addEventListener("click", () => { activeOutputLanguage = "spanish"; updateOutputView(); });
+document.getElementById("useATSForPDF").addEventListener("click", () => {
+  activePDFMode = "ats";
+  if (latestAIResult) updateOutputView();
+  else { printAreaEl.classList.remove("designed-print"); printAreaEl.textContent = cvDraftEl.value; }
+  setStatus("cvStatus", "ATS CV prepared. Click Print / Save as PDF.");
+});
+document.getElementById("useDesignedForPDF").addEventListener("click", () => {
+  activePDFMode = "designed";
+  if (latestAIResult) updateOutputView();
+  else setStatus("cvStatus", "Generate both CV versions first.");
+  setStatus("cvStatus", activeOutputLanguage === "english" ? "Designed CV prepared. Click Print / Save as PDF." : "CV diseñado preparado. Pulsa Imprimir / Guardar como PDF.");
+});
+
+document.getElementById("generateAICV").addEventListener("click", async () => {
+  const button = document.getElementById("generateAICV");
+  const password = document.getElementById("appPassword").value;
+  const profile = profileEl.value.trim();
+  const jobDescription = document.getElementById("jobDescription").value.trim();
+  const company = document.getElementById("company").value.trim();
+  const title = document.getElementById("jobTitle").value.trim();
+  const selectedLength = document.getElementById("length").value;
+  const cvLength = selectedLength === "Up to two pages" ? "two pages" : "one page";
+  const statusEl = document.getElementById("aiStatus");
+  if (!password) { statusEl.textContent = uiLanguage === "es" ? "Introduce la contraseña de acceso." : "Enter your app access password first."; return; }
+  if (!profile || !jobDescription) { statusEl.textContent = uiLanguage === "es" ? "Introduce tu perfil y pega la descripción completa de la oferta." : "Enter your Master Profile and paste the full job description first."; return; }
+  button.disabled = true;
+  button.textContent = uiLanguage === "es" ? "Generando ambos CV..." : "Generating both CVs...";
+  statusEl.textContent = uiLanguage === "es" ? "Conectando de forma segura con el servicio de IA..." : "Connecting securely to the AI service...";
+  try {
+    const response = await fetch(AI_WORKER_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${password}` },
+      body: JSON.stringify({ company, title, jobDescription, profile, cvLength, outputLanguages: ["English", "Spanish"] })
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      if (response.status === 401) throw new Error(uiLanguage === "es" ? "Acceso denegado. Comprueba APP_PASSWORD en Cloudflare." : "Access denied. Check the APP_PASSWORD you set in Cloudflare.");
+      throw new Error(result.error || `Request failed (${response.status}).`);
+    }
+    if (!result.english || !result.spanish || typeof result.english.cv !== "string" || typeof result.spanish.cv !== "string") {
+      throw new Error(uiLanguage === "es" ? "La respuesta no incluye los CV completos en inglés y español. Actualiza el Cloudflare Worker con el archivo proporcionado." : "The response did not include both English and Spanish CVs. Update the Cloudflare Worker using the supplied file.");
+    }
+    latestAIResult = result;
+    activeOutputLanguage = uiLanguage === "es" ? "spanish" : "english";
+    activePDFMode = "ats";
+    updateOutputView();
+    statusEl.textContent = uiLanguage === "es" ? "Ambos CV se han generado. Revisa todos los datos antes de utilizarlos o exportarlos a PDF." : "Both CVs generated. Review every detail before using or saving them as PDF.";
+  } catch (error) {
+    statusEl.textContent = error.message || (uiLanguage === "es" ? "No se pudo conectar. Inténtalo de nuevo." : "Could not connect. Please try again.");
+  } finally {
+    button.disabled = false;
+    button.textContent = uiLanguage === "es" ? "Generar ambos CV con IA" : "Generate both CVs with AI";
+  }
+});
 
 document.getElementById("copyPrompt").addEventListener("click", async () => {
-  if (!promptEl.value) {
+  if (!promptEl.value.trim()) {
     setStatus("promptStatus", "Prepare the prompt first.");
     return;
   }
 
   try {
     await navigator.clipboard.writeText(promptEl.value);
-    setStatus("promptStatus", "Prompt copied.");
-  } catch {
+    setStatus("promptStatus", "Prompt copied. Open ChatGPT and paste it.");
+  } catch (error) {
     promptEl.focus();
     promptEl.select();
-    setStatus("promptStatus", "Select and copy the prompt manually.");
+    setStatus("promptStatus",
+      "Press Ctrl+C to copy the selected prompt.");
   }
 });
 
@@ -193,357 +663,109 @@ document.getElementById("openChatGPT").addEventListener("click", () => {
   window.open("https://chatgpt.com/", "_blank", "noopener,noreferrer");
 });
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
-}
+function updatePreview() {
+  const text = cvDraftEl.value.trim();
 
-function renderDesignedCV(data) {
-  if (!data || typeof data !== "object") {
-    return "<p>No designed CV available.</p>";
+  if (!text) {
+    setStatus("cvStatus", "Paste your final CV before creating a preview.");
+    return false;
   }
 
-  let html = `
-    <div class="designed-name">${escapeHTML(data.name)}</div>
-    <div class="designed-headline">${escapeHTML(data.headline)}</div>
-    <div>${escapeHTML(data.location)}</div>
-    <div class="designed-section-title">Professional Summary</div>
-    <p>${escapeHTML(data.summary)}</p>
-  `;
-
-  if (Array.isArray(data.experience) && data.experience.length) {
-    html += '<div class="designed-section-title">Experience</div>';
-
-    for (const job of data.experience) {
-      html += '<div class="designed-item">';
-      html += `<strong>${escapeHTML(job.role)} — ${escapeHTML(job.company)}</strong>`;
-      html += `<div>${escapeHTML(job.location)} ${escapeHTML(job.dates)}</div>`;
-
-      if (job.description) {
-        html += `<p>${escapeHTML(job.description)}</p>`;
-      }
-
-      if (Array.isArray(job.bullets) && job.bullets.length) {
-        html += "<ul>";
-        for (const bullet of job.bullets) {
-          html += `<li>${escapeHTML(bullet)}</li>`;
-        }
-        html += "</ul>";
-      }
-
-      html += "</div>";
-    }
-  }
-
-  if (Array.isArray(data.education) && data.education.length) {
-    html += '<div class="designed-section-title">Education</div>';
-
-    for (const item of data.education) {
-      html += '<div class="designed-item">';
-      html += `<strong>${escapeHTML(item.degree)}</strong>`;
-      html += `<div>${escapeHTML(item.institution)} ${escapeHTML(item.dates)}</div>`;
-
-      if (item.details) {
-        html += `<p>${escapeHTML(item.details)}</p>`;
-      }
-
-      html += "</div>";
-    }
-  }
-
-  const sections = [
-    ["Skills", data.skills],
-    ["Languages", data.languages],
-    ["Certifications", data.certifications]
-  ];
-
-  for (const [heading, items] of sections) {
-    if (Array.isArray(items) && items.length) {
-      html += `<div class="designed-section-title">${heading}</div>`;
-      html += `<p>${items.map(escapeHTML).join(" · ")}</p>`;
-    }
-  }
-
-  return html;
-}
-
-function getActivePackage() {
-  if (!latestAIResult) return null;
-  return latestAIResult[activeOutputLanguage] || null;
-}
-
-function renderActivePackage() {
-  const result = getActivePackage();
-
-  if (!result) return;
-
-  document.getElementById("matchNotes").textContent =
-    result.matchNotes || "No match assessment returned.";
-
-  document.getElementById("keywordAnalysis").textContent =
-    result.keywordAnalysis || "No keyword analysis returned.";
-
-  const questions = Array.isArray(result.factualQuestions)
-    ? result.factualQuestions
-    : [];
-
-  document.getElementById("factualQuestions").textContent =
-    questions.length
-      ? questions.map((question, index) =>
-          `${index + 1}. ${question}`).join("\n")
-      : "No additional factual questions returned.";
-
-  const preview = document.getElementById("designedPreview");
-  preview.innerHTML = renderDesignedCV(result.designed);
-
-  document.getElementById("viewEnglish").classList.toggle(
-    "active", activeOutputLanguage === "english"
-  );
-
-  document.getElementById("viewSpanish").classList.toggle(
-    "active", activeOutputLanguage === "spanish"
-  );
-
-  document.getElementById("outputLanguageHint").textContent =
-    activeOutputLanguage === "english"
-      ? "Showing the English CV package."
-      : "Showing the Spanish CV package.";
-
-  if (activePDFMode === "designed") {
-    printAreaEl.innerHTML = preview.innerHTML;
+  previewEl.textContent = text;
+  if (activePDFMode === "designed" && latestAIResult) {
     printAreaEl.classList.add("designed-print");
+    printAreaEl.innerHTML = designedToHtml(currentPackage().designed);
   } else {
-    printAreaEl.textContent = result.cv || "";
     printAreaEl.classList.remove("designed-print");
+    printAreaEl.textContent = text;
   }
+  saveToDevice("rashinsCVDraft", cvDraftEl.value);
+  setStatus("cvStatus",
+    "Preview updated. Review the layout before saving your PDF.");
+  return true;
 }
 
-document.getElementById("viewEnglish").addEventListener("click", () => {
-  activeOutputLanguage = "english";
-  renderActivePackage();
-});
-
-document.getElementById("viewSpanish").addEventListener("click", () => {
-  activeOutputLanguage = "spanish";
-  renderActivePackage();
-});
-
-document.getElementById("generateAICV").addEventListener("click", async () => {
-  const profile = profileEl.value.trim();
-  const jobDescription =
-    document.getElementById("jobDescription").value.trim();
-
-  const password =
-    document.getElementById("appPassword").value;
-
-  if (!profile || !jobDescription) {
-    setStatus("aiStatus",
-      "Enter your master profile and the full job description first.");
-    return;
-  }
-
-  if (!password) {
-    setStatus("aiStatus",
-      "Enter your private app access password.");
-    return;
-  }
-
-  const button = document.getElementById("generateAICV");
-  button.disabled = true;
-  button.textContent = "Generating both CVs...";
-  setStatus("aiStatus",
-    "AI is preparing the English and Spanish versions. Please wait.");
-
-  try {
-    const response = await fetch(AI_WORKER_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${password}`
-      },
-      body: JSON.stringify({
-        profile,
-        jobDescription,
-        company: document.getElementById("company").value.trim(),
-        title: document.getElementById("jobTitle").value.trim(),
-        cvLength: document.getElementById("length").value === "One page"
-          ? "one page"
-          : "two pages"
-      })
-    });
-
-    let data;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error("The server returned an invalid response.");
-    }
-
-    if (!response.ok) {
-      throw new Error(data.error || `Request failed (${response.status}).`);
-    }
-
-    if (!data.english?.cv || !data.spanish?.cv) {
-      throw new Error(
-        "The server response is missing an English or Spanish CV."
-      );
-    }
-
-    latestAIResult = data;
-    activeOutputLanguage =
-      document.getElementById("language").value === "Spanish"
-        ? "spanish"
-        : "english";
-
-    activePDFMode = "ats";
-    cvDraftEl.value = getActivePackage().cv;
-
-    saveToDevice("rashinsCVDraft", cvDraftEl.value);
-    saveToDevice("rashinsCVProfile", profileEl.value);
-
-    renderActivePackage();
-    updateCVPreview();
-
-    setStatus("aiStatus",
-      "Both CV versions are ready. Review all facts before using them.");
-  } catch (error) {
-    setStatus("aiStatus",
-      `Generation failed: ${error.message}`);
-  } finally {
-    button.disabled = false;
-    button.textContent = "Generate tailored CV with AI";
-  }
-});
-
-function updateCVPreview() {
-  previewEl.textContent = cvDraftEl.value.trim() ||
-    "Your CV preview will appear here.";
-
-  saveToDevice("rashinsCVDraft", cvDraftEl.value);
-}
-
-document.getElementById("previewCV").addEventListener("click", () => {
-  updateCVPreview();
-  setStatus("cvStatus", "CV preview updated.");
-});
-
-document.getElementById("clearCV").addEventListener("click", () => {
-  if (!confirm("Clear the current CV draft?")) return;
-
-  cvDraftEl.value = "";
-  updateCVPreview();
-  setStatus("cvStatus", "CV draft cleared.");
-});
-
-cvDraftEl.addEventListener("input", () => {
-  saveToDevice("rashinsCVDraft", cvDraftEl.value);
-  previewEl.textContent = cvDraftEl.value ||
-    "Your CV preview will appear here.";
-});
-
-document.getElementById("useATSForPDF").addEventListener("click", () => {
-  const result = getActivePackage();
-
-  if (!result?.cv) {
-    setStatus("aiStatus", "Generate a CV first.");
-    return;
-  }
-
-  activePDFMode = "ats";
-  cvDraftEl.value = result.cv;
-  printAreaEl.textContent = result.cv;
-  printAreaEl.classList.remove("designed-print");
-  saveToDevice("rashinsCVDraft", cvDraftEl.value);
-  updateCVPreview();
-
-  setStatus("cvStatus",
-    "ATS version selected. Click Print / Save as PDF to export.");
-});
-
-document.getElementById("useDesignedForPDF").addEventListener("click", () => {
-  const result = getActivePackage();
-
-  if (!result?.designed) {
-    setStatus("aiStatus", "Generate a CV first.");
-    return;
-  }
-
-  activePDFMode = "designed";
-  printAreaEl.innerHTML = renderDesignedCV(result.designed);
-  printAreaEl.classList.add("designed-print");
-
-  setStatus("cvStatus",
-    "Designed version selected. Click Print / Save as PDF to export.");
-});
+document.getElementById("previewCV").addEventListener("click", updatePreview);
 
 document.getElementById("printCV").addEventListener("click", () => {
-  if (activePDFMode === "designed" && getActivePackage()?.designed) {
-    printAreaEl.innerHTML = renderDesignedCV(getActivePackage().designed);
-    printAreaEl.classList.add("designed-print");
-  } else {
-    printAreaEl.textContent = cvDraftEl.value.trim();
-    printAreaEl.classList.remove("designed-print");
-  }
-
-  if (!printAreaEl.textContent.trim() && !printAreaEl.innerHTML.trim()) {
-    setStatus("cvStatus", "Add or generate a CV before exporting.");
-    return;
-  }
-
+  if (!updatePreview()) return;
   window.print();
 });
 
-const translations = {
-  en: {
-    headerSubtitle: "Your personal workspace for tailored English and Spanish CVs",
-    howHeading: "How this version works",
-    privacyNote: "AI CV generation connects to your private Cloudflare Worker. Your profile and CV draft remain in this browser. Review every generated detail for accuracy before applying."
-  },
-  es: {
-    headerSubtitle: "Tu espacio personal para crear CV personalizados en inglés y español",
-    howHeading: "Cómo funciona esta versión",
-    privacyNote: "La generación con IA se conecta a tu Cloudflare Worker privado. Tu perfil y borrador permanecen en este navegador. Revisa todos los datos antes de enviar tu candidatura."
-  }
-};
+document.getElementById("clearCV").addEventListener("click", () => {
+  if (!confirm("Clear the CV draft from this page?")) return;
 
-let uiLanguage = "en";
+  cvDraftEl.value = "";
+  previewEl.textContent = "Your CV preview will appear here.";
+  printAreaEl.textContent = "";
+  saveToDevice("rashinsCVDraft", "");
+  setStatus("cvStatus", "CV draft cleared.");
+});
 
-function setInterfaceLanguage(language) {
-  uiLanguage = language;
-  document.documentElement.lang = language;
-
-  const dictionary = translations[language];
-
-  for (const [id, value] of Object.entries(dictionary)) {
-    const element = document.getElementById(id);
-    if (element) element.textContent = value;
-  }
-
-  document.getElementById("uiEnglish").classList.toggle(
-    "active", language === "en"
-  );
-
-  document.getElementById("uiSpanish").classList.toggle(
-    "active", language === "es"
-  );
+if (cvDraftEl.value.trim()) {
+  previewEl.textContent = cvDraftEl.value;
+  printAreaEl.textContent = cvDraftEl.value;
 }
 
-document.getElementById("uiEnglish").addEventListener("click", () => {
-  setInterfaceLanguage("en");
-});
 
-document.getElementById("uiSpanish").addEventListener("click", () => {
-  setInterfaceLanguage("es");
-});
 
-setInterfaceLanguage("en");
-updateCVPreview();
+/* INTERFACE LANGUAGE: English / Spanish */
+let uiLanguage = "en";
+const uiTranslations = {
+  en: {
+    headerSubtitle:"Your personal workspace for tailored English and Spanish CVs",
+    headings:["01 — Master Profile","02 — Target Job","03 — Final CV & PDF","How this version works"],
+    static:{aiTitle:"AI CV Generator",aiDescription:"Generate a tailored CV and a factual job-match assessment using your verified profile and the job description above.",previewTitle:"CV preview",profileNote:"Your profile is saved in this browser on this device. It is not synchronized between devices. Avoid storing passwords, ID numbers, or other sensitive personal information."},
+    descriptions:["Maintain your verified career facts here. Use this as the source for every tailored CV.","Paste a job advertisement to prepare a tailored CV prompt.","Paste your final CV, update the preview, and use Print / Save as PDF."],
+    labels:{profile:"Your career information",company:"Company name (optional)",jobTitle:"Job title (optional)",language:"CV language for prompt",length:"CV length",jobDescription:"Full job description",prompt:"Tailored CV prompt",appPassword:"Private app access password",cvDraft:"Final CV text"},
+    buttons:{saveProfile:"Save profile on this device",restoreProfile:"Restore starter profile",generatePrompt:"Prepare my CV prompt",copyPrompt:"Copy prompt",openChatGPT:"Open ChatGPT",generateAICV:"Generate both CVs with AI",previewCV:"Update CV preview",printCV:"Print / Save as PDF",clearCV:"Clear CV draft",useATSForPDF:"Prepare ATS version for PDF",useDesignedForPDF:"Prepare designed version for PDF"},
+    hints:{profile:"Your profile is saved in this browser on this device. It is not synchronized between devices. Avoid storing passwords, ID numbers, or other sensitive personal information.",job:"Paste the full job advertisement here...",prompt:"Your generated prompt will appear here...",password:"Enter your Cloudflare APP_PASSWORD",cvDraft:"Paste your final CV here...",output:"Both languages are generated in one AI request. Choose which version to preview or export.",match:"Job-match assessment",designed:"Designed CV preview",keywords:"Keyword analysis",questions:"Questions to verify",how:"How this version works",privacy:"AI CV generation connects to your private Cloudflare Worker. Your profile and CV draft remain in this browser. Review every generated detail for accuracy before applying.",steps:["Save your master profile on this device.","Paste the job advertisement and generate both English and Spanish CVs.","Review the ATS version, designed version, keyword analysis, and factual questions.","Select a CV version and use Print / Save as PDF."],finalHint:"In the print dialog, select “Save as PDF”. Check page breaks, dates, contact details, and factual accuracy before applying."}
+  },
+  es: {
+    headerSubtitle:"Tu espacio personal para crear CV adaptados en inglés y español",
+    headings:["01 — Perfil profesional","02 — Oferta objetivo","03 — CV final y PDF","Cómo funciona esta versión"],
+    static:{aiTitle:"Generador de CV con IA",aiDescription:"Genera CV adaptados y una evaluación objetiva de adecuación al puesto utilizando tu perfil verificado y la oferta anterior.",previewTitle:"Vista previa del CV",profileNote:"Tu perfil se guarda en este navegador y dispositivo. No se sincroniza entre dispositivos. Evita guardar contraseñas, números de identificación u otros datos sensibles."},
+    descriptions:["Mantén aquí tus datos profesionales verificados. Este perfil será la fuente de todos tus CV adaptados.","Pega una oferta de empleo para preparar un prompt de CV personalizado.","Pega tu CV final, actualiza la vista previa y utiliza Imprimir / Guardar como PDF."],
+    labels:{profile:"Tu información profesional",company:"Nombre de la empresa (opcional)",jobTitle:"Puesto (opcional)",language:"Idioma del CV para el prompt",length:"Extensión del CV",jobDescription:"Descripción completa de la oferta",prompt:"Prompt para el CV personalizado",appPassword:"Contraseña privada de acceso",cvDraft:"Texto del CV final"},
+    buttons:{saveProfile:"Guardar perfil en este dispositivo",restoreProfile:"Restaurar perfil inicial",generatePrompt:"Preparar prompt para mi CV",copyPrompt:"Copiar prompt",openChatGPT:"Abrir ChatGPT",generateAICV:"Generar ambos CV con IA",previewCV:"Actualizar vista previa",printCV:"Imprimir / Guardar como PDF",clearCV:"Borrar borrador del CV",useATSForPDF:"Preparar versión ATS para PDF",useDesignedForPDF:"Preparar versión diseñada para PDF"},
+    hints:{profile:"Tu perfil se guarda en este navegador y dispositivo. No se sincroniza entre dispositivos. Evita guardar contraseñas, números de identificación u otros datos sensibles.",job:"Pega aquí la oferta de empleo completa...",prompt:"El prompt generado aparecerá aquí...",password:"Introduce tu APP_PASSWORD de Cloudflare",cvDraft:"Pega aquí tu CV final...",output:"Ambos idiomas se generan en una sola solicitud de IA. Elige qué versión quieres previsualizar o exportar.",match:"Evaluación de adecuación al puesto",designed:"Vista previa del CV diseñado",keywords:"Análisis de palabras clave",questions:"Preguntas para verificar",how:"Cómo funciona esta versión",privacy:"La generación de CV con IA se conecta a tu Cloudflare Worker privado. Tu perfil y borrador permanecen en este navegador. Revisa todos los datos antes de solicitar un empleo.",steps:["Guarda tu perfil profesional en este dispositivo.","Pega la oferta y genera los CV en inglés y español.","Revisa la versión ATS, la versión diseñada, las palabras clave y las preguntas sobre datos que deben verificarse.","Selecciona una versión del CV y utiliza Imprimir / Guardar como PDF."],finalHint:"En el diálogo de impresión, selecciona “Guardar como PDF”. Revisa los saltos de página, las fechas, los datos de contacto y la exactitud de la información."}
+  }
+};
+function setUILanguage(lang) {
+  uiLanguage = lang;
+  const t = uiTranslations[lang];
+  document.documentElement.lang = lang;
+  document.getElementById("headerSubtitle").textContent = t.headerSubtitle;
+  const sections = document.querySelectorAll("main > section");
+  if (sections[0]) sections[0].querySelector("h2").textContent = t.headings[0];
+  if (sections[1]) sections[1].querySelector("h2").textContent = t.headings[1];
+  const finalSection = document.getElementById("cvDraft").closest("section");
+  if (finalSection) finalSection.querySelector("h2").textContent = t.headings[2];
+  const how = document.getElementById("howHeading"); if (how) how.textContent = t.hints.how;
+  const descs = document.querySelectorAll("main > section > p.description");
+  if (descs[0]) descs[0].textContent = t.descriptions[0];
+  if (descs[1]) descs[1].textContent = t.descriptions[1];
+  if (finalSection && finalSection.querySelector("p.description")) finalSection.querySelector("p.description").textContent = t.descriptions[2];
+  Object.entries(t.labels).forEach(([id,label])=>{const el=document.querySelector(`label[for="${id}"]`); if(el) el.textContent=label;});
+  Object.entries(t.buttons).forEach(([id,label])=>{const el=document.getElementById(id); if(el && !el.disabled) el.textContent=label;});
+  const placeholders={profile:t.hints.profile,jobDescription:t.hints.job,prompt:t.hints.prompt,appPassword:t.hints.password,cvDraft:t.hints.cvDraft};
+  Object.entries(placeholders).forEach(([id,value])=>{const el=document.getElementById(id); if(el) el.placeholder=value;});
+  const matchHeading=document.getElementById("matchHeading"); if(matchHeading) matchHeading.textContent=t.hints.match;
+  const outputHint=document.getElementById("outputLanguageHint"); if(outputHint) outputHint.textContent=t.hints.output;
+  const designedHeading=document.querySelector("#designedPreview").previousElementSibling; if(designedHeading) designedHeading.textContent=t.hints.designed;
+  const keywordHeading=document.querySelector("#keywordAnalysis").previousElementSibling; if(keywordHeading) keywordHeading.textContent=t.hints.keywords;
+  const questionsHeading=document.querySelector("#factualQuestions").previousElementSibling; if(questionsHeading) questionsHeading.textContent=t.hints.questions;
+  const privacy=document.getElementById("privacyNote"); if(privacy) privacy.textContent=t.hints.privacy;
+  const steps=document.querySelectorAll("#howSteps li"); t.hints.steps.forEach((v,i)=>{if(steps[i]) steps[i].textContent=v;});
+  const finalNotice=finalSection ? finalSection.querySelector(".notice") : null; if(finalNotice) finalNotice.textContent=t.hints.finalHint;
+  const langLabel=document.querySelector('label[for="language"]'); if(langLabel) langLabel.textContent=t.labels.language;
+  const gen=document.getElementById("generateAICV"); if(gen && !gen.disabled) gen.textContent=t.buttons.generateAICV;
+}
+document.getElementById("uiEnglish").addEventListener("click",()=>setUILanguage("en"));
+document.getElementById("uiSpanish").addEventListener("click",()=>setUILanguage("es"));
+setUILanguage("en");
+
 </script>
 </body>
 </html>
+
